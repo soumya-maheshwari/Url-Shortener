@@ -1,7 +1,6 @@
 const shortid = require("shortid");
-const path = require("path");
+// const path = require("path");
 const Url = require("../models/urlModel");
-const { spawn } = require("child_process");
 
 const generateShortUrl = async (req, res) => {
   try {
@@ -20,17 +19,20 @@ const generateShortUrl = async (req, res) => {
         shortID: shortid.generate(),
         // shortURL: `${req.baseUrl}/${url.shortID}`,
       });
-      res.status(200).json({
+      return res.status(200).json({
+        success: true,
         ...url._doc,
         shortURL: `${req.baseUrl}/${url.shortID}`,
+        msg: "successssfullllllllll",
       });
     }
     // console.log(shortID);
-    console.log(shortURL);
+    // console.log(shortURL);
   } catch (error) {
     console.log(error);
     return res.status(500).json({
       msg: "server error",
+      success: false,
     });
   }
 };

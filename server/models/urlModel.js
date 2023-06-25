@@ -4,11 +4,13 @@ const urlSchema = mongoose.Schema(
   {
     longURL: {
       type: String,
-      required: true,
+      // required: true,
+      // unique: true,
     },
     shortID: {
       type: String,
       required: true,
+      // unique: true,
     },
     clicks: {
       type: Number,
