@@ -7,6 +7,7 @@ const app = express();
 require("dotenv").config();
 const Port = process.env.PORT || 5000;
 const urlRoute = require("./routes/urlRoute");
+
 //enables server to understand json requests
 app.use(express.json());
 
@@ -21,7 +22,6 @@ app.use((req, res, next) => {
 });
 
 // Connection to DataBase
-
 // connectDB();
 const connectDB = async () => {
   try {
@@ -42,5 +42,4 @@ app.listen(Port, () => {
 });
 
 // routes
-
 app.use("/url", urlRoute);

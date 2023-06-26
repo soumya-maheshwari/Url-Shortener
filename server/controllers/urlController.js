@@ -17,7 +17,6 @@ const generateShortUrl = async (req, res) => {
         ...url._doc,
         // shortID: url.shortID,
         shortURL: `${req.baseUrl}/${url.shortID}`,
-        // shortURL: `${webhost}/${url.shortID}`,
       });
     } else {
       const url = await Url.create({
@@ -27,7 +26,6 @@ const generateShortUrl = async (req, res) => {
       });
 
       console.log(url);
-      // const savedurl = await url.save();
       return res.status(200).json({
         success: true,
         ...url._doc,
@@ -61,6 +59,7 @@ const getShortURL = async (req, res) => {
     }
     url.clicks++;
     await url.save();
+    console.log(url);
     res.redirect(url.longURL);
   } catch (error) {
     console.log(error);

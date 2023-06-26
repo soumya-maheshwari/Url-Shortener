@@ -7,14 +7,16 @@ const initialState = {
   isSuccess: false,
   isLoading: false,
 };
-const backend = "http://localhost:5000/url/";
+// const backend = "http://localhost:5000/url/";
+// https://url-shortener-wkbn.onrender.com/url/vFpitM07P
+const backend = "https://url-shortener-wkbn.onrender.com/";
 
 export const urlThunk = createAsyncThunk(
   "urls/urlfetchdata",
   async (longURL) => {
-    console.log(longURL, "kawjaiej");
+    console.log(longURL, "long url ");
     return await axios
-      .post(`${backend}`, { longURL })
+      .post(`${backend}url`, { longURL })
       .then((res) => {
         console.log(res);
         return res;

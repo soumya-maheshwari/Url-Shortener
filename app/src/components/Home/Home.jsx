@@ -10,7 +10,7 @@ import { urlThunk } from "../../redux/urlSlice";
 import { Link, useParams } from "react-router-dom";
 const Home = () => {
   const dispatch = useDispatch();
-
+  const [status, setStatus] = useState(false);
   const [copied, setCopied] = useState(false);
   const sm = useSelector((state) => state.url);
   console.log(sm);
@@ -52,7 +52,7 @@ const Home = () => {
           setShortenedURL(res.payload.data.shortURL);
           setRedirect(res.payload.data.longURL);
           console.log(redirect);
-
+          setStatus(true);
           return res;
         })
         .catch((err) => {
@@ -121,14 +121,17 @@ const Home = () => {
           <div className="short-url">
             <h1>SHORT URL : </h1>
             <div className="text">
-              <a href={`${"http://localhost:5000"}${shortenedURL}`}>
-                {"http://localhost:5000"}${shortenedURL}`
+              <a
+                href={`${"https://url-shortener-wkbn.onrender.com"}${shortenedURL}`}
+              >
+                {status ? `njkaSl${shortenedURL}` : ""}
+                {/* {"https://url-shortener-wkbn.onrender.com"}${shortenedURL}` */}
               </a>{" "}
               {/* {`${"http://localhost:5000"}${shortenedURL}`} */}
             </div>
             <CopyToClipboard
               className="copy"
-              text={`${"http://localhost:5000"}${shortenedURL}`}
+              text={`${"https://url-shortener-wkbn.onrender.com"}${shortenedURL}`}
               onCopy={handleCopy}
             >
               <button className="border-2 border-blue-500 text-blue-500 font-medium px-5 py-2 ml-4 rounded-md">

@@ -6,7 +6,6 @@ const {
   getShortURL,
 } = require("../controllers/urlController");
 
-// router.get("/:id", (req, res) => {});
 router.get("/:shortID", getShortURL);
 router.post("/", generateShortUrl);
 
