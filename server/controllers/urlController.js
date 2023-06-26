@@ -4,24 +4,35 @@ const Url = require("../models/urlModel");
 
 const generateShortUrl = async (req, res) => {
   try {
-    const { longURL } = req.body;
-    console.log(longURL);
+    //    Destructuring longurl from body
+    let { longURL } = req.body;
+    // console.log("longurl is ", longURL);
+    console.log("bck ", longURL);
+
+    // console.log(req.baseUrl);
     let url = await Url.findOne({ longURL });
+    console.log(url);
     if (url) {
       return res.status(200).json({
         ...url._doc,
         // shortID: url.shortID,
         shortURL: `${req.baseUrl}/${url.shortID}`,
+        // shortURL: `${webhost}/${url.shortID}`,
       });
     } else {
-      url = await Url.create({
+      const url = await Url.create({
         longURL,
         shortID: shortid.generate(),
         // shortURL: `${req.baseUrl}/${url.shortID}`,
       });
+
+      console.log(url);
+      // const savedurl = await url.save();
       return res.status(200).json({
         success: true,
         ...url._doc,
+        // longURL,
+        // shortID,
         shortURL: `${req.baseUrl}/${url.shortID}`,
         msg: "successssfullllllllll",
       });
@@ -41,6 +52,7 @@ const generateShortUrl = async (req, res) => {
 const getShortURL = async (req, res) => {
   try {
     const { shortID } = req.params;
+    console.log(shortID);
     let url = await Url.findOne({ shortID });
     if (!url) {
       return res.status(404).json({

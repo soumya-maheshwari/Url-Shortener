@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 
-const urlSchema = mongoose.Schema(
+const urlSchema = new mongoose.Schema(
   {
     longURL: {
       type: String,
-      // required: true,
+      required: true,
       // unique: true,
     },
     shortID: {
@@ -20,6 +20,6 @@ const urlSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
-const Url = mongoose.model("url", urlSchema);
+const Url = mongoose.model("Url", urlSchema);
 
 module.exports = Url;

@@ -10,30 +10,35 @@ import { urlThunk } from "../../redux/urlSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const sm = useSelector((sm) => sm.url);
-  // console.log(sm);
-  const [longURL, setLongURL] = useState("");
-  // console.log("longurl", longURL);
-  const [shortenedURL, setShortenedURL] = useState("HJJHIH");
+  const sm = useSelector((state) => state.url);
+  console.log(sm);
+  const [url, seturl] = useState("");
+  console.log("url", url);
+  const [shortenedURL, setShortenedURL] = useState("");
+
   const handleUrl = (e) => {
-    setLongURL(e.target.value);
+    seturl(e.target.value);
   };
-  const handleSubmit = (e) => {
+
+  const body = {
+    longURL: url,
+  };
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log(longURL);
-    if (!validURL.isWebUri(longURL)) {
+    // console.log(url, "fr");
+    if (!validURL.isWebUri(url)) {
       toast.error("Invalid url", {
         position: "top-right",
         theme: "dark",
       });
     } else {
-      //
-
-      dispatch(urlThunk(longURL))
+      dispatch(urlThunk(url))
         .then((res) => {
           console.log(res);
-          console.log(res.payload.data.shortURL);
+          // console.log(url);
+          // console.log(res.payload.data.shortURL);
           setShortenedURL(res.payload.data.shortURL);
+          // ${req.baseUrl}/${url.shortID}
           return res;
         })
         .catch((err) => {
@@ -44,27 +49,25 @@ const Home = () => {
   };
 
   const handleReset = () => {
-    setLongURL("");
+    seturl("");
+    // setShortenedURL("");
   };
+
+  console.log(sm);
   return (
     <>
       <div className="my-5 container text-center">
         <div className="my-5 text-center">
-          <form
-            action="/"
-            // onSubmit={handleSubmit}
-          >
+          <form>
             <div className="row text-center d-flex justify-content-center">
               <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-8">
                 <input
                   className="form-control form-control-lg"
-                  name="longURL"
+                  name="url"
                   type="text"
-                  placeholder="Enter URL"
-                  // autocomplete="off"
-                  // autofocus="true"
-                  required
-                  value={longURL}
+                  placeholder="Enter a URL"
+                  // required
+                  value={url}
                   onChange={handleUrl}
                 />
               </div>
@@ -86,6 +89,7 @@ const Home = () => {
             </button>
           </form>
           <div className="mt-5">
+            <h1>SHORT URL : </h1>
             {shortenedURL}
 
             <CopyToClipboard text={shortenedURL}>

@@ -9,19 +9,22 @@ const initialState = {
 };
 const backend = "http://localhost:5000/url/";
 
-export const urlThunk = createAsyncThunk("urrl", async (data) => {
-  // console.log(data);
-  return await axios
-    .post(`${backend}`, data)
-    .then((res) => {
-      console.log(res);
-      return res;
-    })
-    .catch((err) => {
-      console.log(err);
-      return err.response;
-    });
-});
+export const urlThunk = createAsyncThunk(
+  "urls/urlfetchdata",
+  async (longURL) => {
+    console.log(longURL, "kawjaiej");
+    return await axios
+      .post(`${backend}`, { longURL })
+      .then((res) => {
+        console.log(res);
+        return res;
+      })
+      .catch((err) => {
+        console.log(err);
+        return err.response;
+      });
+  }
+);
 
 // console.log(data);
 export const urlSlice = createSlice({
@@ -36,12 +39,12 @@ export const urlSlice = createSlice({
       })
       .addCase(urlThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isError = true;
+        state.isSuccess = true;
         console.log(action.payload);
-        state.message = action.payload.data.msg;
+        // state.message = action.payload.data.msg;
       })
       .addCase(urlThunk.rejected, (state, action) => {
-        state.isLoading = false;
+        state.isLoading = true;
         state.isError = true;
         console.log(action.payload);
         // state.message = action.payload;
