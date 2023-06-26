@@ -10,12 +10,14 @@ import { urlThunk } from "../../redux/urlSlice";
 import { Link, useParams } from "react-router-dom";
 const Home = () => {
   const dispatch = useDispatch();
+
+  const [copied, setCopied] = useState(false);
   const sm = useSelector((state) => state.url);
   console.log(sm);
   const [url, seturl] = useState("");
   console.log("url", url);
   const [shortenedURL, setShortenedURL] = useState("");
-  const [redirect, setRedirect] = useState("");
+  const [redirect, setRedirect] = useState("bkjh");
   const handleUrl = (e) => {
     seturl(e.target.value);
   };
@@ -28,12 +30,18 @@ const Home = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // console.log(url, "fr");
+    console.log(copied);
 
     console.log(window.location.origin);
     if (!validURL.isWebUri(url)) {
       toast.error("Invalid url", {
         position: "top-right",
         theme: "dark",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
       });
     } else {
       dispatch(urlThunk(url))
@@ -45,7 +53,6 @@ const Home = () => {
           setRedirect(res.payload.data.longURL);
           console.log(redirect);
 
-          // ${req.baseUrl}/${url.shortID}
           return res;
         })
         .catch((err) => {
@@ -60,27 +67,39 @@ const Home = () => {
     // setShortenedURL("");
   };
 
-  const handleRedirect = () => {
-    <Link to={redirect} />;
+  const handleCopy = () => {
+    setCopied(true);
+    toast.success("Copied to Clipboard", {
+      position: "top-right",
+      theme: "dark",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
   };
 
   console.log(sm);
   return (
     <>
       <div className="my-5 container text-center">
+        <h1 className="head">URL SHORTENER</h1>
         <div className="my-5 text-center">
           <form>
             <div className="row text-center d-flex justify-content-center">
               <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-8">
-                <input
-                  className="form-control form-control-lg"
-                  name="url"
-                  type="text"
-                  placeholder="Enter a URL"
-                  // required
-                  value={url}
-                  onChange={handleUrl}
-                />
+                <div className="inputs">
+                  <input
+                    className="form-control form-control-lg"
+                    name="url"
+                    type="text"
+                    placeholder="Enter a URL"
+                    // required
+                    value={url}
+                    onChange={handleUrl}
+                  />
+                </div>
               </div>
             </div>
             <button
@@ -99,14 +118,18 @@ const Home = () => {
               Reset
             </button>
           </form>
-          <div className="mt-5">
+          <div className="short-url">
             <h1>SHORT URL : </h1>
-
-            {`${"http://localhost:5000"}${shortenedURL}`}
-
+            <div className="text">
+              <a href={`${"http://localhost:5000"}${shortenedURL}`}>
+                {"http://localhost:5000"}${shortenedURL}`
+              </a>{" "}
+              {/* {`${"http://localhost:5000"}${shortenedURL}`} */}
+            </div>
             <CopyToClipboard
+              className="copy"
               text={`${"http://localhost:5000"}${shortenedURL}`}
-              onClick={handleRedirect}
+              onCopy={handleCopy}
             >
               <button className="border-2 border-blue-500 text-blue-500 font-medium px-5 py-2 ml-4 rounded-md">
                 Copy URL to Clipboard
