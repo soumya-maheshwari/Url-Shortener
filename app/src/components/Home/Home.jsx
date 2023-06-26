@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as ReactBootstrap from "react-bootstrap";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { urlThunk } from "../../redux/urlSlice";
-
+import { Link, useParams } from "react-router-dom";
 const Home = () => {
   const dispatch = useDispatch();
   const sm = useSelector((state) => state.url);
@@ -15,7 +15,7 @@ const Home = () => {
   const [url, seturl] = useState("");
   console.log("url", url);
   const [shortenedURL, setShortenedURL] = useState("");
-
+  const [redirect, setRedirect] = useState("");
   const handleUrl = (e) => {
     seturl(e.target.value);
   };
@@ -23,9 +23,13 @@ const Home = () => {
   const body = {
     longURL: url,
   };
+
+  let shortt = window.location.origin;
   const handleSubmit = async (e) => {
     e.preventDefault();
     // console.log(url, "fr");
+
+    console.log(window.location.origin);
     if (!validURL.isWebUri(url)) {
       toast.error("Invalid url", {
         position: "top-right",
@@ -38,6 +42,9 @@ const Home = () => {
           // console.log(url);
           // console.log(res.payload.data.shortURL);
           setShortenedURL(res.payload.data.shortURL);
+          setRedirect(res.payload.data.longURL);
+          console.log(redirect);
+
           // ${req.baseUrl}/${url.shortID}
           return res;
         })
@@ -51,6 +58,10 @@ const Home = () => {
   const handleReset = () => {
     seturl("");
     // setShortenedURL("");
+  };
+
+  const handleRedirect = () => {
+    <Link to={redirect} />;
   };
 
   console.log(sm);
@@ -90,9 +101,13 @@ const Home = () => {
           </form>
           <div className="mt-5">
             <h1>SHORT URL : </h1>
-            {shortenedURL}
 
-            <CopyToClipboard text={shortenedURL}>
+            {`${"http://localhost:5000"}${shortenedURL}`}
+
+            <CopyToClipboard
+              text={`${"http://localhost:5000"}${shortenedURL}`}
+              onClick={handleRedirect}
+            >
               <button className="border-2 border-blue-500 text-blue-500 font-medium px-5 py-2 ml-4 rounded-md">
                 Copy URL to Clipboard
               </button>
