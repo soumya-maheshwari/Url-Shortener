@@ -1,5 +1,4 @@
 const shortid = require("shortid");
-// const path = require("path");
 const Url = require("../models/urlModel");
 
 const generateShortUrl = async (req, res) => {

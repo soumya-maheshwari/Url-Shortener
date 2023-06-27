@@ -124,7 +124,7 @@ const Home = () => {
               <a
                 href={`${"https://url-shortener-wkbn.onrender.com"}${shortenedURL}`}
               >
-                {status ? `njkaSl${shortenedURL}` : ""}
+                {status ? `${shortenedURL}` : ""}
                 {/* {"https://url-shortener-wkbn.onrender.com"}${shortenedURL}` */}
               </a>{" "}
               {/* {`${"http://localhost:5000"}${shortenedURL}`} */}
