@@ -1,3 +1,14 @@
+.spinner {
+  position: relative;
+  top: 28%;
+}
+.loading {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(230, 233, 235, 0.5);
+}
+
 .para {
   font-size: 30px;
   height: 60px;

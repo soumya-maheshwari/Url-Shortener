@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./home.css";
 import { ToastContainer, toast } from "react-toastify";
 import validURL from "valid-url";
@@ -8,8 +8,10 @@ import * as ReactBootstrap from "react-bootstrap";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { urlThunk } from "../../redux/urlSlice";
 import { Link, useParams } from "react-router-dom";
+
 const Home = () => {
   const dispatch = useDispatch();
+
   const [status, setStatus] = useState(false);
   const [copied, setCopied] = useState(false);
   const sm = useSelector((state) => state.url);
@@ -17,7 +19,9 @@ const Home = () => {
   const [url, seturl] = useState("");
   console.log("url", url);
   const [shortenedURL, setShortenedURL] = useState("");
-  const [redirect, setRedirect] = useState("bkjh");
+  const [redirect, setRedirect] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const handleUrl = (e) => {
     seturl(e.target.value);
   };
@@ -26,13 +30,17 @@ const Home = () => {
     longURL: url,
   };
 
-  let shortt = window.location.origin;
+  useEffect(() => {
+    setLoading(sm.isLoading);
+  }, [sm]);
+
+  // let shortt = window.location.origin;
   const handleSubmit = async (e) => {
     e.preventDefault();
     // console.log(url, "fr");
     console.log(copied);
 
-    console.log(window.location.origin);
+    // console.log(window.location.origin);
     if (!validURL.isWebUri(url)) {
       toast.error("Invalid url", {
         position: "top-right",
@@ -83,6 +91,11 @@ const Home = () => {
   console.log(sm);
   return (
     <>
+      {loading ? (
+        <div className="loading">
+          <ReactBootstrap.Spinner animation="border" className="spinner" />
+        </div>
+      ) : null}
       <div className="my-5 container text-center">
         <h1 className="head">URL SHORTENER</h1>
         <div className="my-5 text-center">
