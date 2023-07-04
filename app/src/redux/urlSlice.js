@@ -18,11 +18,11 @@ export const urlThunk = createAsyncThunk(
     return await axios
       .post(`${backend}url`, { longURL })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         return res;
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         return err.response;
       });
   }
@@ -42,13 +42,13 @@ export const urlSlice = createSlice({
       .addCase(urlThunk.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        console.log(action.payload);
+        // console.log(action.payload);
         // state.message = action.payload.data.msg;
       })
       .addCase(urlThunk.rejected, (state, action) => {
         state.isLoading = true;
         state.isError = true;
-        console.log(action.payload);
+        // console.log(action.payload);
         // state.message = action.payload;
       });
   },

@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import * as ReactBootstrap from "react-bootstrap";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { urlThunk } from "../../redux/urlSlice";
-import { Link, useParams } from "react-router-dom";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -15,9 +14,9 @@ const Home = () => {
   const [status, setStatus] = useState(false);
   const [copied, setCopied] = useState(false);
   const sm = useSelector((state) => state.url);
-  console.log(sm);
+  // console.log(sm);
   const [url, seturl] = useState("");
-  console.log("url", url);
+  // console.log("url", url);
   const [shortenedURL, setShortenedURL] = useState("");
   const [redirect, setRedirect] = useState("");
   const [loading, setLoading] = useState(false);
@@ -38,7 +37,7 @@ const Home = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // console.log(url, "fr");
-    console.log(copied);
+    // console.log(copied);
 
     // console.log(window.location.origin);
     if (!validURL.isWebUri(url)) {
@@ -59,12 +58,12 @@ const Home = () => {
           // console.log(res.payload.data.shortURL);
           setShortenedURL(res.payload.data.shortURL);
           setRedirect(res.payload.data.longURL);
-          console.log(redirect);
+          // console.log(redirect);
           setStatus(true);
           return res;
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
           return err.response;
         });
     }
@@ -88,7 +87,7 @@ const Home = () => {
     });
   };
 
-  console.log(sm);
+  // console.log(sm);
   return (
     <>
       {loading ? (
